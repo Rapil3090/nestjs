@@ -3,7 +3,7 @@ import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { Movie } from './entities/movie.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 
 @Injectable()
 export class MovieService {
@@ -20,7 +20,15 @@ export class MovieService {
 
   getManyMovies(title?: string) {
 
-    return this.movieRepository.find();
+    if(!title) {
+      return this.movieRepository.find();
+    }
+
+    return this.movieRepository.find({
+      where: {
+        title: Like(`%${title}%`),
+      }
+    });
   }
 
   async getMovieById(id: number) {

@@ -1,6 +1,7 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn, VersionColumn } from "typeorm";
-import { BaseTable } from "./base-table.entity";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn, VersionColumn } from "typeorm";
+import { BaseTable } from "../../common/entity/base-table.entity";
 import { MovieDetail } from "./movie-detail.entity";
+import { Director } from "src/director/entity/director.entity";
 
 
 @Entity()
@@ -23,5 +24,11 @@ export class Movie extends BaseTable {
     )
     @JoinColumn()
     detail: MovieDetail;
+
+    @ManyToOne(
+        () => Director,
+        director => director.id,
+    )
+    director: Director;
 
 }

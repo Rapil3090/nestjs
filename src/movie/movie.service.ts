@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
-import { Movie } from './entities/movie.entity';
+import { Movie } from './entity/movie.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Like, Repository } from 'typeorm';
-import { MovieDetail } from './entities/movie-detail.entity';
+import { MovieDetail } from './entity/movie-detail.entity';
 
 @Injectable()
 export class MovieService {
@@ -115,7 +115,7 @@ export class MovieService {
 
     await this.movieRepository.delete(id);
     await this.movieDetailRepository.delete(movie.detail.id);
-    
+
     return id;
   }
 

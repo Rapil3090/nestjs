@@ -7,10 +7,19 @@ import { UpdateMovieDto } from './dto/update-movie.dto';
 export class MovieController {
   constructor(private readonly movieService: MovieService) {}
 
+
   @Post()
-  create(@Body() createMovieDto: CreateMovieDto) {
-    return this.movieService.create(createMovieDto);
+  createdMovie(@Body() createMovieDto: CreateMovieDto) {
+
+    return this.movieService.createMovie(createMovieDto);
   }
+
+ @Get()
+ getMovies() {
+
+  return this.movieService.getManyMovies();
+ }
+
 
 
 }

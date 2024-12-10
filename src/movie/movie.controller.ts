@@ -14,11 +14,12 @@ export class MovieController {
     return this.movieService.createMovie(createMovieDto);
   }
 
- @Get()
- getMovies() {
+  @Get()
+  getMovies() {
 
   return this.movieService.getManyMovies();
- }
+  }
+
 
 
 

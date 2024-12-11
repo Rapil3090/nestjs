@@ -31,6 +31,11 @@ export class MovieController {
     return this.movieService.updateMovie(id, updateMovieDto);
   }
 
+  @Delete(':id')
+  deleteMovieById(@Param('id') id: number) {
+    return this.deleteMovieById(id);
+  }
+
 
 
 }

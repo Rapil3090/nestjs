@@ -20,6 +20,13 @@ export class MovieController {
   return this.movieService.getManyMovies();
   }
 
+  @Get(':id')
+  getMovieById(@Param('id') id:number ) {
+
+    return this.movieService.getMovieById(id);
+  }
+
+
 
 
 

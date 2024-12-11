@@ -9,6 +9,7 @@ import { Movie } from './movie/entity/movie.entity';
 import { MovieDetail } from './movie/entity/movie-detail.entity';
 import { DirectorModule } from './director/director.module';
 import { Director } from './director/entity/director.entity';
+import { GenreModule } from './genre/genre.module';
 
 @Module({
   imports: [
@@ -42,7 +43,8 @@ import { Director } from './director/entity/director.entity';
       inject: [ConfigService]
     }),
     MovieModule,
-    DirectorModule],
+    DirectorModule,
+    GenreModule],
   controllers: [AppController],
   providers: [AppService],
 })

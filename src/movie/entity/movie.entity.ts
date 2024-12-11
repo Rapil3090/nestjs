@@ -9,7 +9,9 @@ export class Movie extends BaseTable {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({
+        unique: true,
+    })
     title: string;
 
     @Column()
@@ -20,6 +22,7 @@ export class Movie extends BaseTable {
         movieDetail => movieDetail.id,
         {
             cascade: true,
+            nullable: false,
         }
     )
     @JoinColumn()
@@ -28,6 +31,10 @@ export class Movie extends BaseTable {
     @ManyToOne(
         () => Director,
         director => director.id,
+        {
+            cascade: true,
+            nullable: false,
+        }
     )
     director: Director;
 

@@ -26,7 +26,10 @@ export class MovieController {
     return this.movieService.getMovieById(id);
   }
 
-
+  @Patch(':id')
+  patchMovieById(@Param('id') id:number, @Body() updateMovieDto: UpdateMovieDto) {
+    return this.movieService.updateMovie(id, updateMovieDto);
+  }
 
 
 

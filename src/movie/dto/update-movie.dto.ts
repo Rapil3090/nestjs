@@ -8,27 +8,27 @@ enum MovieGenre {
     Action = 'action',
 }
 
-export class UpdateMovieDto {
+export class UpdateMovieDto extends PartialType(CreateMovieDto){
 
-    @IsNotEmpty()
-    @IsString()
-    @IsOptional()
-    title: string;
+    // @IsNotEmpty()
+    // @IsString()
+    // @IsOptional()
+    // title: string;
 
-    @IsArray()
-    @ArrayNotEmpty()
-    @IsNumber({}, {
-        each: true,
-    })
-    @IsOptional()
-    genreIds?: number[];
+    // @IsArray()
+    // @ArrayNotEmpty()
+    // @IsNumber({}, {
+    //     each: true,
+    // })
+    // @IsOptional()
+    // genreIds?: number[];
 
-    @IsNotEmpty()
-    @IsOptional()
-    detail?: string;
+    // @IsNotEmpty()
+    // @IsOptional()
+    // detail?: string;
 
-    @IsNotEmpty()
-    @IsNumber()
-    @IsOptional()
-    directorId?: number;
+    // @IsNotEmpty()
+    // @IsNumber()
+    // @IsOptional()
+    // directorId?: number;
 }

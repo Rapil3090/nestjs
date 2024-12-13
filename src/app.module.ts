@@ -11,6 +11,9 @@ import { DirectorModule } from './director/director.module';
 import { Director } from './director/entity/director.entity';
 import { GenreModule } from './genre/genre.module';
 import { Genre } from './genre/entity/genre.entity';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
+import { User } from './user/entity/user.entity';
 
 @Module({
   imports: [
@@ -39,6 +42,7 @@ import { Genre } from './genre/entity/genre.entity';
           MovieDetail,
           Director,
           Genre,
+          User,
         ],
         synchronize: true,
       }),
@@ -46,7 +50,9 @@ import { Genre } from './genre/entity/genre.entity';
     }),
     MovieModule,
     DirectorModule,
-    GenreModule],
+    GenreModule,
+    AuthModule,
+    UserModule],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -5,10 +5,17 @@ import { AuthService } from './auth.service';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post()
+  @Post('register')
   registerUser(@Headers('authorization') token: string){
 
     return this.authService.register(token);
 
   }
+
+  
+  @Post('login')
+   loginUser(@Headers('authorization') token: string) {
+    return this.authService.login(token);
+   }
+
 }

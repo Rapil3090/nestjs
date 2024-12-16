@@ -58,6 +58,11 @@ export class BearerTokenMiddleware implements NestMiddleware {
             req.user = payload;
             next();
         } catch (e) {
+
+            if(e.name === 'TokenExpiredError') {
+                throw new UnauthorizedException('토큰이 만료되었습니다.');
+            }
+            
             next();
         }
     }

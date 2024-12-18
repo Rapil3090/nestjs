@@ -8,6 +8,8 @@ import { MovieDetail } from './entity/movie-detail.entity';
 import { Director } from 'src/director/entity/director.entity';
 import { Genre } from 'src/genre/entity/genre.entity';
 import { error } from 'console';
+import { GetMoviesDto } from './dto/get-movies.dto';
+import { CommonService } from 'src/common/common.service';
 
 @Injectable()
 export class MovieService {
@@ -31,14 +33,24 @@ export class MovieService {
     private readonly genreRepository: Repository<Genre>,
 
     private readonly dateSourec: DataSource,
+
+    private readonly commonService: CommonService,
   ){}
 
-  async getManyMovies(title?: string) {
+  async getManyMovies(dto: GetMoviesDto) {
 
-    if(!title) {
-      return [ await this.movieRepository.find({
-        relations: ['director', 'genres'],
-      }), await this.movieRepository.count()];
+    const { title, take, page } = dto;
+
+    const qb = await this.movieRepository.createQueryBuilder('movie')
+    .leftJoinAndSelect('movie.director', 'director')
+    .leftJoinAndSelect('movie.genres', 'genres');
+
+    if (title) {
+      qb.where('movie.title LIKE :title', {title: `%${title}%`})
+    }
+
+    if (title && take) {
+      this.commonService.applyPagePaginationParamsToQb(qb, dto);
     }
 
     return this.movieRepository.findAndCount({

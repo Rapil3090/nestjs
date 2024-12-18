@@ -49,9 +49,9 @@ export class MovieService {
       qb.where('movie.title LIKE :title', {title: `%${title}%`})
     }
 
-    if (title && take) {
-      this.commonService.applyPagePaginationParamsToQb(qb, dto);
-    }
+    
+    this.commonService.applyPagePaginationParamsToQb(qb, dto);
+  
 
     return this.movieRepository.findAndCount({
       where: {

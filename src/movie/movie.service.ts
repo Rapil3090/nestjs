@@ -39,7 +39,7 @@ export class MovieService {
 
   async getManyMovies(dto: GetMoviesDto) {
 
-    const { title, take, page } = dto;
+    const { title } = dto;
 
     const qb = await this.movieRepository.createQueryBuilder('movie')
     .leftJoinAndSelect('movie.director', 'director')
@@ -50,15 +50,22 @@ export class MovieService {
     }
 
     
-    this.commonService.applyPagePaginationParamsToQb(qb, dto);
+    // this.commonService.applyPagePaginationParamsToQb(qb, dto);
+    const {nextCursor} = await this.commonService.applyCursorPaginationParamsToQb(qb, dto);
   
+    const [data, count] = await qb.getManyAndCount();
 
-    return this.movieRepository.findAndCount({
-      where: {
-        title: Like(`%${title}%`),
-      },
-      relations: ['director', 'genres'],
-    });
+    return {
+      data,
+      nextCursor,
+      count,
+    }
+    // return this.movieRepository.findAndCount({
+    //   where: {
+    //     title: Like(`%${title}%`),
+    //   },
+    //   relations: ['director', 'genres'],
+    // });
   }
 
   async getMovieById(id: number) {

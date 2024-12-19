@@ -3,6 +3,7 @@ import { BaseTable } from "../../common/entity/base-table.entity";
 import { MovieDetail } from "./movie-detail.entity";
 import { Director } from "src/director/entity/director.entity";
 import { Genre } from "src/genre/entity/genre.entity";
+import { Transform } from "class-transformer";
 
 
 @Entity()
@@ -49,5 +50,6 @@ export class Movie extends BaseTable {
     likeCount: number;
 
     @Column()
+    @Transform(({value}) => `http:/localhost:3000/${value}`)
     movieFilePath: string;
 }

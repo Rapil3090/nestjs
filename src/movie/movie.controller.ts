@@ -12,6 +12,8 @@ import { TransactionInterceptor } from 'src/common/interceptor/tracsaction.inter
 import { FileFieldsInterceptor, FileInterceptor } from '@nestjs/platform-express';
 import { Movie } from './entity/movie.entity';
 import { UserId } from 'src/user/decorator/user-id.decorator';
+import { QueryRunner } from 'src/common/decorator/query-runner.decorator';
+import { QueryRunner as QR } from 'typeorm';
 
 @Controller('movie')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -24,14 +26,16 @@ export class MovieController {
   @UseInterceptors(TransactionInterceptor)
   createdMovie(
     @Body() body: CreateMovieDto,
-    @Request() req,
+    // @Request() req,
+    @QueryRunner() queryRunner: QR,
     @UserId() userId: number,
     ) {
 
     return this.movieService.createMovie(
       body,
       userId,
-      req.queryRunner,
+      // req.queryRunner,
+      queryRunner,
     );
   }
 

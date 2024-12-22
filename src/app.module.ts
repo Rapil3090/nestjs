@@ -24,6 +24,7 @@ import { ResponseTimeInterceptor } from './common/interceptor/response-time.inte
 import { ForbiddenExceptionFilter } from './common/filter/forbidden.filter';
 import { QueryFailedExceptionFilter } from './common/filter/query-failed.filter';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { MovieUserLike } from './movie/entity/movie-user-like.entitty';
 
 @Module({
   imports: [
@@ -56,6 +57,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
           Director,
           Genre,
           User,
+          MovieUserLike,
         ],
         synchronize: true,
       }),

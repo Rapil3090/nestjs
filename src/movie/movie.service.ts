@@ -47,7 +47,7 @@ export class MovieService {
     private readonly commonService: CommonService,
   ){}
 
-  async getManyMovies(dto: GetMoviesDto) {
+  async getManyMovies(dto: GetMoviesDto, userId?: number) {
 
     const { title } = dto;
 
@@ -61,7 +61,28 @@ export class MovieService {
 
     const {nextCursor} = await this.commonService.applyCursorPaginationParamsToQb(qb, dto);
   
-    const [data, count] = await qb.getManyAndCount();
+    let [data, count] = await qb.getManyAndCount();
+
+    if(userId) {
+      const movieIds = data.map(movie => movie.id);
+
+      const likedMovies = movieIds.length < 1 ? [] : await this.movieUserLikeRepository.createQueryBuilder('mul')
+      .leftJoinAndSelect('mul.user', 'user')
+      .leftJoinAndSelect('mul.movie', 'movie')
+      .where('movie.id IN(:...movieIds)', { movieIds })
+      .andWhere('user.id = :userId', { userId })
+      .getMany();
+
+      const likedMovieMap = likedMovies.reduce((acc, next) => ({
+        ...acc,
+        [next.movie.id]: next.isLike,
+      }), {});
+
+      data = data.map((x) => ({
+        ...x,
+        likeStatus: x.id in likedMovieMap ? likedMovieMap[x.id] : null,
+      }))
+    }
 
     return {
       data,

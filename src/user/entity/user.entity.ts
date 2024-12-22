@@ -1,5 +1,6 @@
 import { Exclude } from "class-transformer";
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Movie } from "src/movie/entity/movie.entity";
+import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 
 export enum Role {
@@ -30,6 +31,13 @@ export class User extends BaseEntity {
         default: Role.user,
     })
     role: Role;
+
+    @OneToMany(
+        () => Movie,
+        (movie) => movie.creator,
+    )
+
+    createdMovies: Movie [];
 
 
 }

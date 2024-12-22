@@ -11,6 +11,7 @@ import { GetMoviesDto } from './dto/get-movies.dto';
 import { TransactionInterceptor } from 'src/common/interceptor/tracsaction.interceptor';
 import { FileFieldsInterceptor, FileInterceptor } from '@nestjs/platform-express';
 import { Movie } from './entity/movie.entity';
+import { UserId } from 'src/user/decorator/user-id.decorator';
 
 @Controller('movie')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -24,10 +25,12 @@ export class MovieController {
   createdMovie(
     @Body() body: CreateMovieDto,
     @Request() req,
+    @UserId() userId: number,
     ) {
 
     return this.movieService.createMovie(
       body,
+      userId,
       req.queryRunner,
     );
   }

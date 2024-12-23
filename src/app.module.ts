@@ -25,6 +25,7 @@ import { ForbiddenExceptionFilter } from './common/filter/forbidden.filter';
 import { QueryFailedExceptionFilter } from './common/filter/query-failed.filter';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { MovieUserLike } from './movie/entity/movie-user-like.entitty';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [
@@ -71,7 +72,11 @@ import { MovieUserLike } from './movie/entity/movie-user-like.entitty';
     DirectorModule,
     GenreModule,
     AuthModule,
-    UserModule],
+    UserModule,
+    CacheModule.register({
+        ttl: 3000,
+        isGlobal: true,
+      }),],
   controllers: [AppController],
   providers: [AppService, {
     provide: APP_GUARD,

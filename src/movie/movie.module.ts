@@ -26,7 +26,9 @@ import { CacheModule } from '@nestjs/cache-manager';
       MovieUserLike,
     ]),
     CommonModule,
-    CacheModule.register(),
+    CacheModule.register({
+      ttl: 3000,
+    }),
     MulterModule.register({
       storage: diskStorage({
         destination: join(process.cwd(), 'public', 'movie'),

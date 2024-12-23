@@ -13,6 +13,7 @@ import { join } from 'path';
 import { v4 } from 'uuid';
 import { User } from 'src/user/entity/user.entity';
 import { MovieUserLike } from './entity/movie-user-like.entitty';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { MovieUserLike } from './entity/movie-user-like.entitty';
       MovieUserLike,
     ]),
     CommonModule,
+    CacheModule.register(),
     MulterModule.register({
       storage: diskStorage({
         destination: join(process.cwd(), 'public', 'movie'),

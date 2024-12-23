@@ -14,11 +14,19 @@ import { Movie } from './entity/movie.entity';
 import { UserId } from 'src/user/decorator/user-id.decorator';
 import { QueryRunner } from 'src/common/decorator/query-runner.decorator';
 import { QueryRunner as QR } from 'typeorm';
+import { number } from 'joi';
 
 @Controller('movie')
 @UseInterceptors(ClassSerializerInterceptor)
 export class MovieController {
   constructor(private readonly movieService: MovieService) {}
+
+
+  @Get('recent')
+  @Public()
+  getMoviesRecent() {
+    return this.movieService.findRecent();
+  }
 
 
   @Post()

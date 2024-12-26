@@ -67,7 +67,20 @@ export class UserService {
     return newUser;
   }
 
-  remove(id: number) {
-    return this.userRepository.delete(id);
+  async remove(id: number) {
+    
+    const user = await this.userRepository.findOne({
+      where: {
+        id,
+      }
+    });
+
+    if(!user) {
+      throw new NotFoundException('존재하지 않는 사용자입니다');
+    }
+    
+    await this.userRepository.delete(id);
+    
+    return id;
   }
 }

@@ -41,7 +41,7 @@ describe('UserService', () => {
       },
     ];
 
-    mockUserRepository.find.mockRejectedValueOnce(users);
+    mockUserRepository.find.mockResolvedValue(users);
 
     const result = await userService.findAll();
 

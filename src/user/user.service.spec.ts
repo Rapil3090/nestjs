@@ -4,6 +4,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { User } from './entity/user.entity';
 import { NotFoundException } from '@nestjs/common';
 import { async } from 'rxjs';
+import { CreateUserDto } from './dto/create-user.dto';
 
 const mockUserRepository = {
   findOne: jest.fn(),
@@ -12,6 +13,7 @@ const mockUserRepository = {
   find: jest.fn(),
   remove: jest.fn(),
   delete: jest.fn(),
+  save: jest.fn(),
 }
 
 
@@ -110,4 +112,24 @@ describe('UserService', () => {
       })
     });
   });
+
+  describe('create', () => {
+    it('should create a user', async () => {
+
+      const createUserDto : CreateUserDto = { 
+        email: 'test@test.com',
+        password: '1234'
+      };
+
+      const savedUser = { id: 1, ...createUserDto };
+
+      jest.spyOn(mockUserRepository, 'save').mockResolvedValue(savedUser);
+
+      const result = await userService.create(createUserDto);
+
+      expect(result).toEqual(createUserDto);
+      expect(mockUserRepository.save).toHaveBeenCalledWith(createUserDto);
+
+    })
+  })
 });

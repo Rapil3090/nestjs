@@ -160,7 +160,7 @@ export class AuthService {
 
 
         return {
-            refeshToken: await this.issuToken(user, true),
+            refreshToken: await this.issuToken(user, true),
             accessToken: await this.issuToken(user, false),
         }
 

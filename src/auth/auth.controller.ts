@@ -34,22 +34,22 @@ export class AuthController {
    @Post('login/passport')
    async loginUserPassport(@Request() req) {
     return {
-      refreshToken: await this.authService.issuToken(req.user, true),
-      accessToken: await this.authService.issuToken(req.user, false),
+      refreshToken: await this.authService.issueToken(req.user, true),
+      accessToken: await this.authService.issueToken(req.user, false),
     }
    }
 
-   @UseGuards(JwtAuthGuard)
-   @Get('pravate')
-   async private(@Request() req) {
-    return req.user;
-   }
+  //  @UseGuards(JwtAuthGuard)
+  //  @Get('pravate')
+  //  async private(@Request() req) {
+  //   return req.user;
+  //  }
 
    @Post('token/access')
    async rotateAccessToken(@Request() req) {
     
     return {
-      accesstoken: await this.authService.issuToken(req.user, false),
+      accessToken: await this.authService.issueToken(req.user, false),
     }
    }
 }

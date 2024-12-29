@@ -246,7 +246,7 @@ describe('AuthService', () => {
 
     it('should issue an access token', async() => {
 
-      const result = await authService.issuToken(user as User, false)
+      const result = await authService.issueToken(user as User, false)
       
       expect(jwtService.signAsync).toHaveBeenCalledWith(
         {sub: user.id, type: 'access', role: user.role},
@@ -257,7 +257,7 @@ describe('AuthService', () => {
 
     it('should issue an access token', async() => {
       
-      const result = await authService.issuToken(user as User, true)
+      const result = await authService.issueToken(user as User, true)
       
       expect(jwtService.signAsync).toHaveBeenCalledWith(
         {sub: user.id, type: 'refresh', role: user.role},
@@ -276,13 +276,13 @@ describe('AuthService', () => {
 
       jest.spyOn(authService, 'parseBasicToken').mockReturnValue( { email, password });
       jest.spyOn(authService, 'authenticate').mockResolvedValue(user as User);
-      jest.spyOn(authService, 'issuToken').mockResolvedValue('mocked.token');
+      jest.spyOn(authService, 'issueToken').mockResolvedValue('mocked.token');
 
       const reslut = await authService.login(rawToken);
 
       expect(authService.parseBasicToken).toHaveBeenCalledWith(rawToken);
       expect(authService.authenticate).toHaveBeenCalledWith(email, password);
-      expect(authService.issuToken).toHaveBeenCalledTimes(2);
+      expect(authService.issueToken).toHaveBeenCalledTimes(2);
       expect(reslut).toEqual({
         refreshToken: 'mocked.token',
         accessToken: 'mocked.token',

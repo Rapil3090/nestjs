@@ -31,7 +31,11 @@ export class AuthService {
 
 
         await this.cacheManager.set(`BLOCK_TOKEN_${token}`, payload,
-            Math.max((differenceInSeconds) * 1000, 1))
+            Math.max((differenceInSeconds) * 1000, 1)
+        )
+
+
+        return true;
     }
 
 
@@ -134,7 +138,7 @@ export class AuthService {
         return user;
     }
 
-    async issuToken(user: {id: number, role: Role}, isRefreshToken: boolean) {
+    async issueToken(user: {id: number, role: Role}, isRefreshToken: boolean) {
 
         const refreshTokenSecret = this.configService.get<string>(envVariableKeys.refreshTokenSecret);
         const accessTokenSecret = this.configService.get<string>(envVariableKeys.accessTokenSecret);
@@ -160,8 +164,8 @@ export class AuthService {
 
 
         return {
-            refreshToken: await this.issuToken(user, true),
-            accessToken: await this.issuToken(user, false),
+            refreshToken: await this.issueToken(user, true),
+            accessToken: await this.issueToken(user, false),
         }
 
     }

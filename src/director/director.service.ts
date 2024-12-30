@@ -11,28 +11,28 @@ export class DirectorService {
 
   constructor(
     @InjectRepository(Director)
-    private readonly direcetorRepository: Repository<Director>,
+    private readonly directorRepository: Repository<Director>,
   ){
 
   }
 
   create(createDirectorDto: CreateDirectorDto) {
-    return this.direcetorRepository.save(createDirectorDto);
+    return this.directorRepository.save(createDirectorDto);
   }
 
   findAll() {
-    return this.direcetorRepository.find();
+    return this.directorRepository.find();
   }
 
   findOne(id: number) {
-    return this.direcetorRepository.findOne({
+    return this.directorRepository.findOne({
       where: {
         id},
     });
   }
 
   async update(id: number, updateDirectorDto: UpdateDirectorDto) {
-    const director = await this.direcetorRepository.findOne({
+    const director = await this.directorRepository.findOne({
       where: {
         id,
       }  
@@ -42,7 +42,7 @@ export class DirectorService {
       throw new NotFoundException('감독을 찾을 수 없습니다');
     }
 
-    await this.direcetorRepository.update(
+    await this.directorRepository.update(
       {
         id,
       },
@@ -51,7 +51,7 @@ export class DirectorService {
       }
   );
 
-  const newDirector = await this.direcetorRepository.findOne(
+  const newDirector = await this.directorRepository.findOne(
     {
       where: {
         id,
@@ -62,8 +62,18 @@ export class DirectorService {
   }
 
   async remove(id: number) {
+
+    const directer = await this.directorRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if(!directer) {
+      throw new NotFoundException('존재하지 않는 ID의 영화입니다.')
+    }
     
-    await this.direcetorRepository.delete(id);
+    await this.directorRepository.delete(id);
     
     return id;
   }

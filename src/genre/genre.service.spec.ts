@@ -5,6 +5,8 @@ import { Genre } from './entity/genre.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { when } from 'joi';
 import { NotFoundException } from '@nestjs/common';
+import { async } from 'rxjs';
+import { CreateGenreDto } from './dto/create-genre.dto';
 
 const mockGenreRepository = {
   save: jest.fn(),
@@ -53,6 +55,16 @@ describe('GenreService', () => {
       expect(genreRepository.save).toHaveBeenCalledWith(createGenreDto);
       expect(result).toEqual(savedGenre);
     });
+
+    it('should throw a NotFoundException if genre to delete does not exist', async () => {
+      const createGenreDto : CreateGenreDto = {name: 'Fantasy'};
+      
+      jest.spyOn(mockGenreRepository, 'findOne').mockResolvedValue(
+        {id: 1, name: createGenreDto.name}
+      );
+
+      await expect(genreService.create(createGenreDto)).rejects.toThrow(NotFoundException);
+    })
   });
 
   describe('findAll', () => {
@@ -131,11 +143,36 @@ describe('GenreService', () => {
 
       await expect(genreService.update(1, {name: 'Updated Fatasy'})).rejects.toThrow(NotFoundException);
     });
-
   });
 
+  describe('remove', () => {
+    it('should delete a genre and return the id', async () => {
+      const genre = {
+        id: 1, 
+        name: 'Fantasy',
+      };
+
+      jest.spyOn(genreRepository, 'findOne').mockResolvedValue(genre as Genre);
+
+      const result = await genreService.remove(1);
+
+      expect(genreRepository.findOne).toHaveBeenCalledWith({
+        where: {
+          id: 1,
+        }
+      });
+      expect(genreRepository.delete).toHaveBeenCalledWith(1);
+      expect(result).toBe(1);
+    });
+
+    it('should throw a NotFoundException if genre to delete does not exist', async () => {
+      jest.spyOn(genreRepository, 'findOne').mockResolvedValue(null);
+
+      await expect(genreService.remove(1)).rejects.toThrow(NotFoundException);
+    })
 
 
+  })
 
   
 });

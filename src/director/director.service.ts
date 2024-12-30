@@ -61,7 +61,10 @@ export class DirectorService {
     return newDirector;
   }
 
-  remove(id: number) {
-    return this.direcetorRepository.delete(id);
+  async remove(id: number) {
+    
+    await this.direcetorRepository.delete(id);
+    
+    return id;
   }
 }

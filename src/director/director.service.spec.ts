@@ -140,5 +140,12 @@ describe('DirectorService', () => {
       expect(directorRepository.delete).toHaveBeenCalledWith(1);
       expect(result).toEqual(1);
     });
+
+    it('should throw NotFoundException if director does not exist', async () => {
+      jest.spyOn(mockDirectorRepository, 'findOne').mockResolvedValue(null);
+
+      expect(directorService.remove(1)).rejects.toThrow(NotFoundException);
+    });
   });
+
 });
